@@ -1,6 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getCartTotal, removeItem, decreaseItemQuantity, increaseItemQuantity } from '../features/cartSlice'
 
 const Cartpagee = () => {
+
+
+
+    const { cart, totalQuantity, totalPrice } = useSelector((state) => state.allCart);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getCartTotal());
+    }, [cart]);
+
+
     return (
         <div>
             <section className="h-100 gradient-custom">
@@ -9,125 +21,79 @@ const Cartpagee = () => {
                         <div className="col-md-8">
                             <div className="card mb-4">
                                 <div className="card-header py-3">
-                                    <h5 className="mb-0">Cart - 2 items</h5>
+                                    <h5 className="mb-0">Cart -{cart.length}items</h5>
                                 </div>
                                 <div className="card-body">
 
-                                    <div className="row">
-                                        <div className="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                    {
+                                        cart.map((data) => (
+                                            <div className="row">
+                                                <div className="col-lg-3 col-md-12 mb-4 mb-lg-0">
 
-                                            <div className="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"
-                                                    className="w-100" alt="Blue Jeans Jacket" />
-                                                <a href="#!">
-                                                    <div className="mask" style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}></div>
-                                                </a>
-                                            </div>
+                                                    <div className="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                                                        <img src={data.img}
+                                                            className="w-100" alt="Blue Jeans Jacket" />
+                                                        <a href="#!">
+                                                            <div className="mask" style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}></div>
+                                                        </a>
+                                                    </div>
 
-                                        </div>
-
-                                        <div className="col-lg-5 col-md-6 mb-4 mb-lg-0">
-
-                                            <p><strong>Blue denim shirt</strong></p>
-                                            <p>Color: blue</p>
-                                            <p>Size: M</p>
-                                            <button type="button" className="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-                                                title="Remove item">
-                                                <i className="fas fa-trash"></i>
-                                            </button>
-                                            <button type="button" className="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
-                                                title="Move to the wish list">
-                                                <i className="fas fa-heart"></i>
-                                            </button>
-
-                                        </div>
-
-                                        <div className="col-lg-4 col-md-6 mb-4 mb-lg-0">
-
-                                            <div className="d-flex mb-4" style={{ maxWidth: "300px" }}>
-                                                <button className="btn btn-primary px-3 me-2"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                    <i className="fas fa-minus"></i>
-                                                </button>
-
-                                                <div className="form-outline">
-                                                    <input id="form1" min="0" name="quantity" value="1" type="number" className="form-control" />
-                                                    <label className="form-label" for="form1">Quantity</label>
                                                 </div>
 
-                                                <button className="btn btn-primary px-3 ms-2"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                    <i className="fas fa-plus"></i>
-                                                </button>
+                                                <div className="col-lg-5 col-md-6 mb-4 mb-lg-0">
+
+                                                    <p><strong>{data.title}</strong></p>
+
+                                                    <button type="button" className="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                                                        title="Remove item"
+                                                        onClick={() => dispatch(removeItem(data.id))}
+                                                    >
+                                                        <i className="fas fa-trash"></i>
+                                                    </button>
+
+
+                                                </div>
+
+                                                <div className="col-lg-4 col-md-6 mb-4 mb-lg-0">
+
+                                                    <div className="d-flex mb-4" style={{ maxWidth: "300px" }}>
+                                                        <button className="btn btn-primary px-3 me-2"
+                                                            onClick={() => dispatch(decreaseItemQuantity(data.id))}
+
+                                                        >
+                                                            <i className="fas fa-minus"></i>
+                                                        </button>
+
+                                                        <div className="form-outline">
+                                                            <input id="form1" min="0" name="quantity" value={data.quantity} type="number" className="form-control" onChange={() => null} />
+                                                            <label className="form-label" for="form1">Quantity</label>
+                                                        </div>
+
+                                                        <button className="btn btn-primary px-3 ms-2"
+
+                                                            onClick={() => dispatch(increaseItemQuantity(data.id))}
+                                                        >
+                                                            <i className="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+
+                                                    <p className="text-start text-md-center">
+                                                        <strong>{data.price}</strong>
+                                                    </p>
+
+                                                </div>
                                             </div>
+                                        ))
 
-                                            <p className="text-start text-md-center">
-                                                <strong>$17.99</strong>
-                                            </p>
 
-                                        </div>
-                                    </div>
+
+                                    }
 
 
                                     <hr className="my-4" />
 
 
-                                    <div className="row">
-                                        <div className="col-lg-3 col-md-12 mb-4 mb-lg-0">
 
-                                            <div className="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.webp"
-                                                    className="w-100"
-                                                    alt="xyz" />
-                                                <a href="#!">
-                                                    <div className="mask" style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}></div>
-                                                </a>
-                                            </div>
-
-                                        </div>
-
-                                        <div className="col-lg-5 col-md-6 mb-4 mb-lg-0">
-
-                                            <p><strong>Red hoodie</strong></p>
-                                            <p>Color: red</p>
-                                            <p>Size: M</p>
-
-                                            <button type="button" className="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-                                                title="Remove item">
-                                                <i className="fas fa-trash"></i>
-                                            </button>
-                                            <button type="button" className="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
-                                                title="Move to the wish list">
-                                                <i className="fas fa-heart"></i>
-                                            </button>
-
-                                        </div>
-
-                                        <div className="col-lg-4 col-md-6 mb-4 mb-lg-0">
-
-                                            <div className="d-flex mb-4" style={{ maxWidth: "300px" }}>
-                                                <button className="btn btn-primary px-3 me-2"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                    <i className="fas fa-minus"></i>
-                                                </button>
-
-                                                <div className="form-outline">
-                                                    <input id="form1" min="0" name="quantity" value="1" type="number" className="form-control" />
-                                                    <label className="form-label" for="form1">Quantity</label>
-                                                </div>
-
-                                                <button className="btn btn-primary px-3 ms-2"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                    <i className="fas fa-plus"></i>
-                                                </button>
-                                            </div>
-
-                                            <p className="text-start text-md-center">
-                                                <strong>$17.99</strong>
-                                            </p>
-
-                                        </div>
-                                    </div>
 
                                 </div>
                             </div>
@@ -165,7 +131,7 @@ const Cartpagee = () => {
                                         <li
                                             className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                             Total Quantity
-                                            <span>0</span>
+                                            <span>{totalQuantity}</span>
                                         </li>
 
                                         <li
@@ -174,7 +140,7 @@ const Cartpagee = () => {
                                                 <strong>Total amount</strong>
 
                                             </div>
-                                            <span><strong>0</strong></span>
+                                            <span><strong>{totalPrice}</strong></span>
                                         </li>
                                     </ul>
 

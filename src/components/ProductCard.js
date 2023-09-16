@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../features/cartSlice';
 
 export default function ProductCard() {
-    const items = useSelector((state) => state.cart.items);
+    const items = useSelector((state) => state.allCart.items);
     const dispatch = useDispatch();
     return (
         <div class="m-2">
