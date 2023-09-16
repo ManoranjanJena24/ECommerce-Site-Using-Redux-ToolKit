@@ -7,10 +7,12 @@ import {
     MDBCardImage,
     MDBBtn, MDBContainer, MDBRow, MDBCol
 } from 'mdb-react-ui-kit';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../features/cartSlice';
 
 export default function ProductCard() {
     const items = useSelector((state) => state.cart.items);
+    const dispatch = useDispatch();
     return (
         <div class="m-2">
             <MDBContainer>
@@ -24,7 +26,7 @@ export default function ProductCard() {
                                     <MDBCardText>
                                         {item.price}
                                     </MDBCardText>
-                                    <MDBBtn href='#'>Add To Cart</MDBBtn>
+                                    <MDBBtn onClick={() => dispatch(addToCart(item))}>Add To Cart</MDBBtn>
                                 </MDBCardBody>
                             </MDBCard>
                         </MDBCol>
