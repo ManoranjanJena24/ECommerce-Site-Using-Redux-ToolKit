@@ -1,7 +1,12 @@
 import React from 'react'
+import Navbar from './components/Navbar'
+import ProductCard from './components/ProductCard'
 
 export default function App() {
   return (
-    <div>App</div>
+    <div>
+      < Navbar />
+      <ProductCard />
+    </div>
   )
 }
